@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>This is home</h1>
+    <h2>you are logged in as {{ request.user.username }}</h2>
+    <button type="submit"><a href="{% url 'accounts:logout' %}">Log Out</a></button>
+</body>
+</html>
