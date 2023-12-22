@@ -18,6 +18,7 @@
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit">update</button>
+        <button type="submit"><a href="{% url 'accounts:profile' %}">Cancel</a></button>
     </form>
 </body>
 </html>

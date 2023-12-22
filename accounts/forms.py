@@ -22,8 +22,8 @@ class RegisterForm(UserCreationForm):
 
 
 class UserProfileForm(ModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
+    password1 = forms.CharField(widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput, required=False)
     class Meta:
         model = User
         fields = [
