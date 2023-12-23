@@ -40,6 +40,7 @@ class SigninView(LoginView):
 def home(request):
     if request.user.is_authenticated:
         banks = Bank.objects.filter(owner = request.user)
+        print(banks)
         return render(request, 'accounts/home.html', {"banks":banks})
     else:
         return redirect('accounts:login')

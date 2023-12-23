@@ -18,7 +18,11 @@
 
     {% if banks %}
         {% for bank in banks %}
-            <a href="{% url 'banks:bank-detail' pk=bank.id %}">{{ bank.name }}</a>
+            <ul>
+                <li>
+                    <a href="{% url 'banks:bank-detail' pk=bank.id %}">{{ bank.name }}</a>
+                </li>
+            </ul>
         {% endfor %}
     {% endif %}
 
