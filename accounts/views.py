@@ -42,6 +42,7 @@ def home(request):
     else:
         return redirect('accounts:login')
 
+
 @login_required
 def profileView(request):
     if request.user.is_authenticated:
@@ -75,30 +76,34 @@ def profileEdit(request):
                 return redirect(reverse('accounts:profile'))
             else:
                 new_pass2 = form.cleaned_data.get('password2')
-                if new_pass1 == new_pass2 and len(new_pass1) >=8:
+                if new_pass1 == new_pass2 and len(new_pass1) >= 8:
                     new_pass1 = make_password(new_pass1)
                     if new_pass1 == old_pass:
-                        messages.error(request, "new password must not be same as old password!")
+                        messages.error(
+                            request, "new password must not be same as old password!")
                         return redirect('accounts:edit')
                     else:
                         current_user = User.objects.get(id=request.user.id)
-                        current_user.first_name = request.POST.get('first_name')
+                        current_user.first_name = request.POST.get(
+                            'first_name')
                         current_user.last_name = request.POST.get('last_name')
                         current_user.email = request.POST.get('email')
                         current_user.set_password(new_pass2)
                         current_user.save()
-                        update_session_auth_hash(request,current_user)
+                        update_session_auth_hash(request, current_user)
                         messages.success(request, "info updated Successfully!")
                         return redirect(reverse('accounts:profile'))
                 else:
-                    messages.error(request, "invalid Password! remember lenth must not be less than 8 and both passwords should match!")
+                    messages.error(
+                        request, "invalid Password! remember lenth must not be less than 8 and both passwords should match!")
                     return redirect('accounts:edit')
         else:
             messages.error(request, 'incorrect info please try again')
             return redirect('accounts:edit')
-        
+
     form = UserProfileForm(instance=request.user)
-    return render(request, 'accounts/profile_edit.html', {'form':form})
+    return render(request, 'accounts/profile_edit.html', {'form': form})
+
 
 def signout(request):
     logout(request)

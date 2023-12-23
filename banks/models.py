@@ -13,10 +13,14 @@ bank has a name, swift code, institution number, and description
 class Bank(models.Model):
     owner = models.ForeignKey(
         User, null=False, blank=False, on_delete=models.CASCADE)
+    
     name = models.CharField(max_length=100, null=False, blank=False)
+
     swift_code = models.CharField(max_length=100, null=False, blank=False)
+
     institution_number = models.CharField(
         max_length=100, null=False, blank=False)
+        
     description = models.CharField(max_length=100, null=False, blank=False)
 
 

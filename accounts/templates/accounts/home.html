@@ -9,7 +9,7 @@
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
     {% endif %}
@@ -17,7 +17,8 @@
     <h2>you are logged in as {{ request.user.username }}</h2>
 
     <button type="submit"><a href="{% url 'accounts:view' %}">View</a></button>
-    <button type="submit"><a href="{% url 'accounts:edit' %}">Edit</a></button>
+    <button type="submit"><a href="{% url 'accounts:edit' %}">Edit profile</a></button>
+    <button type="submit"><a href="{% url 'banks:add' %}">Add Bank</a></button>
     <button type="submit"><a href="{% url 'accounts:logout' %}">Log Out</a></button>
 </body>
 </html>
