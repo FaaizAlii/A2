@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import EmailValidator
@@ -20,9 +21,11 @@ class Bank(models.Model):
 
     institution_number = models.CharField(
         max_length=100, null=False, blank=False)
-        
+
     description = models.CharField(max_length=100, null=False, blank=False)
 
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 """A branch has a name, transit number, and address,"""
 

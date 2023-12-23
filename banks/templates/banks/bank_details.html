@@ -11,5 +11,7 @@
     <h3>swift code : {{bank.swift_code}}</h3>
     <h3>inst num : {{bank.institution_number}}</h3>
     <p>{{ bank.description }}</p>
+
+    <button type="submit"><a href="{% url 'accounts:profile' %}">return Home</a></button>
 </body>
 </html>

@@ -14,6 +14,7 @@ from django.http import JsonResponse
 from .forms import UserProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import make_password
+from banks.models import Bank, Branch
 # Create your views here.
 
 
@@ -38,7 +39,8 @@ class SigninView(LoginView):
 @login_required
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'accounts/home.html')
+        banks = Bank.objects.filter(owner = request.user)
+        return render(request, 'accounts/home.html', {"banks":banks})
     else:
         return redirect('accounts:login')
 
