@@ -20,17 +20,15 @@
             <th>transit number</th>
             <th>email</th>
             <th>address</th>
-        </tr>
         {% for branch in bank.branch_set.all %}
+            <tr>
             <td>{{ branch.id }}</td>
             <td><a href="{% url 'banks:branch-detail' pk=branch.id %}">{{ branch.name }}</a></td>
             <td>{{ branch.transit_number }}</td>
             <td>{{ branch.email }}</td>
             <td>{{ branch.address }}</td>
+            </tr>
         {% endfor %}
-        <tr>
-            <td>{{branch}}</td>
-        </tr>
     </table>
     <button type="submit"><a href="{% url 'banks:add-branch' pk=bank.id %}">Add Branch</a></button>
     <button type="submit"><a href="{% url 'accounts:profile' %}">return Home</a></button>
