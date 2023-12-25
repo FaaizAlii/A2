@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Bank</title>
+    <title>Edit branch</title>
 </head>
 <body>
-    <h1>Add bank</h1>
+    <h1>Edit Branch</h1>
     <form action="" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">create Bank</button>
+        {{form.as_p}}
+        <button type="submit">Save Changes</button>
+        <button type="submit"><a href="{% url 'accounts:profile' %}">Go back Home</a></button>
     </form>
 </body>
 </html>

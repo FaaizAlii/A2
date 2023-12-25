@@ -12,6 +12,27 @@
     <h3>inst num : {{bank.institution_number}}</h3>
     <p>{{ bank.description }}</p>
 
+    <h2>Branches</h2>
+    <table border="1">
+        <tr>
+            <th>branch id</th>
+            <th>branch name</th>
+            <th>transit number</th>
+            <th>email</th>
+            <th>address</th>
+        </tr>
+        {% for branch in bank.branch_set.all %}
+            <td>{{ branch.id }}</td>
+            <td><a href="{% url 'banks:branch-detail' pk=branch.id %}">{{ branch.name }}</a></td>
+            <td>{{ branch.transit_number }}</td>
+            <td>{{ branch.email }}</td>
+            <td>{{ branch.address }}</td>
+        {% endfor %}
+        <tr>
+            <td>{{branch}}</td>
+        </tr>
+    </table>
+    <button type="submit"><a href="{% url 'banks:add-branch' pk=bank.id %}">Add Branch</a></button>
     <button type="submit"><a href="{% url 'accounts:profile' %}">return Home</a></button>
 </body>
 </html>

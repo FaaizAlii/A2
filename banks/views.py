@@ -4,10 +4,10 @@ from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.views import View
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Bank,Branch
@@ -42,10 +42,39 @@ class BankDetail(LoginRequiredMixin, DetailView):
             raise Http404("you don't have permission to access this page")
         return obj
 
+
+class AddBranch(LoginRequiredMixin, CreateView):
+    model = Branch
+    template_name = 'banks/add_branch.html'
+    fields = ['name', 'transit_number', 'address', 'email', 'capacity']
+    
+    def form_valid(self, form):
+        bank_id = self.kwargs.get('pk')
+        bank = get_object_or_404(Bank, pk=bank_id)
+        
+        form.instance.bank = bank
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('banks:branch-detail', kwargs = {'pk':self.object.pk})
+
+
+class BranchDetail(LoginRequiredMixin, DetailView):
+    model = Branch
+    template_name = 'banks/branch_details.html'
+    fields = ['name', 'transit_number', 'email', 'capacity','address']
+    context_object_name = 'branch'
+    
+
+class BranchEdit(LoginRequiredMixin,UpdateView):
+    model = Branch
+    template_name = 'banks/branch_edit.html'
+    fields = ['name','transit_number','email','address', 'capacity']
+
+    def get_success_url(self):
+        return reverse_lazy('banks:branch-detail', kwargs = {'pk':self.object.pk})
+
 class AllBanks(ListView):
     model = Bank
     template_name = 'banks/all_banks.html'
     context_object_name = 'banks'
-    # def get_queryset(self):
-    #     obj = Bank.objects.all()
-    #     return obj

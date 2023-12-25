@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>your Branch Detail</title>
+</head>
+<body>
+    <h1>Branch Details</h1>
+    <h1>Welcome to {{branch.name}}</h1>
+    <h1>Branch id: {{branch.id}}</h1>
+
+    <h3>Transit Number: {{branch.transit_number}} </h3>
+    <h3>Our email: {{branch.email}} </h3>
+    <h3>Address: {{branch.address}} </h3>
+    <h3>branch total Capacity: {{branch.capacity}} </h3>
+    <h3>last modified: {{branch.last_modified}} </h3>
+
+    <button type="submit"><a href="{% url 'banks:branch-edit' pk=branch.id %}">Edit Branch</a></button>
+    <button type="submit"><a href="{% url 'accounts:profile' %}">return Home</a></button>
+</body>
+</html>

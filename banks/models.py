@@ -41,3 +41,6 @@ class Branch(models.Model):
     )
     capacity = models.PositiveIntegerField(null=True, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
