@@ -15,12 +15,12 @@ class Bank(models.Model):
     owner = models.ForeignKey(
         User, null=False, blank=False, on_delete=models.CASCADE)
     
-    name = models.CharField(max_length=100, null=False, blank=False)
+    name = models.CharField(max_length=100, null=False, blank=False, unique=True)
 
-    swift_code = models.CharField(max_length=100, null=False, blank=False)
+    swift_code = models.CharField(max_length=100, null=False, blank=False, unique=True)
 
     institution_number = models.CharField(
-        max_length=100, null=False, blank=False)
+        max_length=100, null=False, blank=False, unique=True)
 
     description = models.CharField(max_length=100, null=False, blank=False)
 
@@ -32,10 +32,10 @@ class Bank(models.Model):
 
 class Branch(models.Model):
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, null=False, blank=False)
-    transit_number = models.CharField(max_length=100, null=False, blank=False)
+    name = models.CharField(max_length=100, null=False, blank=False, unique=True)
+    transit_number = models.CharField(max_length=100, null=False, blank=False, unique=True)
     address = models.CharField(max_length=100, null=False, blank=False)
-    email = models.EmailField(
+    email = models.EmailField(unique=True,
         validators=[EmailValidator(message="Enter a valid email address.")],
         default="admin@enigmatix.io"
     )

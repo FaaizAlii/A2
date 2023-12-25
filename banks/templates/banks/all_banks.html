@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All banks</title>
+</head>
+<body>
+    <h1>All banks!</h1>
+    {% for bank in banks %}
+    <ul>
+        <li>
+            <a href="{% url 'banks:bank-detail' pk=bank.id %}">{{bank.name}}   ---   {{bank.institution_number}}</a>
+        </li>
+    </ul>
+    {% endfor %}
+</body>
+</html>
