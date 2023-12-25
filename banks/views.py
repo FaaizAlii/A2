@@ -66,7 +66,7 @@ class BranchDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'branch'
     
 
-class BranchEdit(LoginRequiredMixin,UpdateView):
+class BranchEdit(LoginRequiredMixin, UpdateView):
     model = Branch
     template_name = 'banks/branch_edit.html'
     fields = ['name','transit_number','email','address', 'capacity']
