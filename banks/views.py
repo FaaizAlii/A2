@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Bank,Branch
+from .models import Bank, Branch
 from .forms import bankForm
 from django.http import Http404
 # Create your views here.
@@ -18,7 +18,7 @@ from django.http import Http404
 
 # name, description, inst_num, swift_code
 
-class AddBank( LoginRequiredMixin ,CreateView):
+class AddBank(LoginRequiredMixin, CreateView):
     template_name = 'banks/add_bank.html'
     model = Bank
     fields = ['name', 'institution_number', 'swift_code', 'description']
@@ -28,14 +28,14 @@ class AddBank( LoginRequiredMixin ,CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('banks:bank-detail', kwargs={'pk':self.object.pk})
+        return reverse_lazy('banks:bank-detail', kwargs={'pk': self.object.pk})
 
 
 class BankDetail(LoginRequiredMixin, DetailView):
     model = Bank
     template_name = 'banks/bank_details.html'
     context_object_name = 'bank'
-    
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if obj.owner != self.request.user:
@@ -47,32 +47,41 @@ class AddBranch(LoginRequiredMixin, CreateView):
     model = Branch
     template_name = 'banks/add_branch.html'
     fields = ['name', 'transit_number', 'address', 'email', 'capacity']
-    
+
     def form_valid(self, form):
         bank_id = self.kwargs.get('pk')
         bank = get_object_or_404(Bank, pk=bank_id)
-        
+
         form.instance.bank = bank
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('banks:branch-detail', kwargs = {'pk':self.object.pk})
+        return reverse_lazy('banks:branch-detail', kwargs={'pk': self.object.pk})
 
 
 class BranchDetail(LoginRequiredMixin, DetailView):
     model = Branch
     template_name = 'banks/branch_details.html'
-    fields = ['name', 'transit_number', 'email', 'capacity','address']
+    fields = ['name', 'transit_number', 'email', 'capacity', 'address']
     context_object_name = 'branch'
-    
 
-class BranchEdit(LoginRequiredMixin,UpdateView):
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        
+        if obj.bank.owner != self.request.user:
+            raise Http404("You don't have permission to access this page")
+
+        return obj
+
+
+class BranchEdit(LoginRequiredMixin, UpdateView):
     model = Branch
     template_name = 'banks/branch_edit.html'
-    fields = ['name','transit_number','email','address', 'capacity']
+    fields = ['name', 'transit_number', 'email', 'address', 'capacity']
 
     def get_success_url(self):
-        return reverse_lazy('banks:branch-detail', kwargs = {'pk':self.object.pk})
+        return reverse_lazy('banks:branch-detail', kwargs={'pk': self.object.pk})
+
 
 class AllBanks(ListView):
     model = Bank
