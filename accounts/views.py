@@ -15,6 +15,7 @@ from .forms import UserProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import make_password
 from banks.models import Bank, Branch
+
 # Create your views here.
 
 
@@ -30,20 +31,18 @@ class RegisterView(FormView):
 
 class SigninView(LoginView):
     form_class = AuthenticationForm
-    success_url = reverse_lazy('accounts:home')
-    model = User
     template_name = 'accounts/login.html'
+    
+    def get_success_url(self):
+        # return '/accounts/profile/'
+        return reverse_lazy('accounts:profile')
 
 
 @never_cache
-@login_required
+@login_required(login_url='accounts:login')
 def home(request):
-    if request.user.is_authenticated:
-        banks = Bank.objects.filter(owner = request.user)
-        print(banks)
-        return render(request, 'accounts/home.html', {"banks":banks})
-    else:
-        return redirect('accounts:login')
+    banks = Bank.objects.filter(owner=request.user)
+    return render(request, 'accounts/home.html', {"banks": banks})
 
 
 @login_required
